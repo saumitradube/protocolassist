@@ -172,6 +172,29 @@ See backend README for detailed API documentation.
 - ChromaDB data persists across server restarts
 - PDF processing extracts text with page numbers for accurate citations
 
+## 🚀 Deployment
+
+### Frontend (GitHub Pages)
+
+Deploy the frontend to GitHub Pages using the deploy script:
+
+```bash
+# Set your backend API URL
+export REACT_APP_API_BASE_URL=https://your-backend-url.com
+
+# Deploy
+./deploy.sh
+```
+
+Or from the frontend directory:
+```bash
+cd frontend
+export REACT_APP_API_BASE_URL=https://your-backend-url.com
+npm run deploy
+```
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
 ## 🔮 Future Enhancements
 
 - Streaming responses for real-time chat
