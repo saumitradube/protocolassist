@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/protocolassist/static/css/main.9c05868b.css",
+    "main.js": "/protocolassist/static/js/main.f6d25f7d.js",
+    "index.html": "/protocolassist/index.html",
+    "main.9c05868b.css.map": "/protocolassist/static/css/main.9c05868b.css.map",
+    "main.f6d25f7d.js.map": "/protocolassist/static/js/main.f6d25f7d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9c05868b.css",
+    "static/js/main.f6d25f7d.js"
+  ]
+}
