@@ -1,0 +1,22 @@
+{
+  "name": "protocolassist",
+  "version": "1.0.0",
+  "description": "Clinical Protocol Assistant - Full Stack Application",
+  "scripts": {
+    "install:frontend": "cd frontend && npm install --legacy-peer-deps",
+    "install:all": "npm run install:frontend",
+    "deploy:frontend": "cd frontend && npm run deploy",
+    "deploy:backend": "cd backend && vercel --prod",
+    "deploy:all": "npm run deploy:backend && npm run deploy:frontend",
+    "setup": "npm run install:all && npm install -g vercel",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:backend": "cd backend && uvicorn app.main:app --reload"
+  },
+  "devDependencies": {
+    "vercel": "^34.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

@@ -44,7 +44,6 @@ export const ApiConfigModal: React.FC<ApiConfigModalProps> = ({
 
     try {
       // Temporarily update the API URL for testing
-      const originalUrl = getCurrentApiBaseUrl();
       updateApiBaseUrl(apiUrl.trim());
 
       // Test the connection

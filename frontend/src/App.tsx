@@ -8,7 +8,7 @@ import { NavigationBar } from './components/NavigationBar';
 import { UploadView } from './components/UploadView';
 import { LoginScreen } from './components/LoginScreen';
 import { ApiConfigModal } from './components/ApiConfigModal';
-import { getCurrentApiBaseUrl, updateApiBaseUrl } from './api/client';
+import { updateApiBaseUrl } from './api/client';
 import { getApiBaseUrl, loadApiBaseUrlFromStorage } from './utils/config';
 
 function App() {
