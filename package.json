@@ -5,15 +5,12 @@
   "scripts": {
     "install:frontend": "cd frontend && npm install --legacy-peer-deps",
     "install:all": "npm run install:frontend",
+    "build:frontend": "cd frontend && npm run build",
     "deploy:frontend": "cd frontend && npm run deploy",
-    "deploy:backend": "cd backend && vercel --prod",
-    "deploy:all": "npm run deploy:backend && npm run deploy:frontend",
-    "setup": "npm run install:all && npm install -g vercel",
+    "deploy:all": "npm run build:frontend && npm run deploy:frontend",
     "dev:frontend": "cd frontend && npm start",
-    "dev:backend": "cd backend && uvicorn app.main:app --reload"
-  },
-  "devDependencies": {
-    "vercel": "^34.0.0"
+    "dev:backend": "cd backend && uvicorn app.main:app --reload",
+    "start": "cd backend && uvicorn app.main:app --host 0.0.0.0 --port 8000"
   },
   "engines": {
     "node": ">=18.0.0"

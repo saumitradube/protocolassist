@@ -1,8 +1,10 @@
 """FastAPI application entry point."""
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from typing import List
 import uvicorn
+import os
 
 from app.schemas import (
     UploadResponse, 
@@ -19,6 +21,11 @@ app = FastAPI(
     description="RAG-based conversational AI for clinical trial protocols",
     version="1.0.0"
 )
+
+# Serve static files from frontend build (if it exists)
+frontend_build_path = os.path.join(os.path.dirname(__file__), "../../frontend/build")
+if os.path.exists(frontend_build_path):
+    app.mount("/", StaticFiles(directory=frontend_build_path, html=True), name="static")
 
 # CORS middleware for frontend
 app.add_middleware(
