@@ -7,8 +7,38 @@ import { SourceCitationPanel } from './components/SourceCitationPanel';
 import { NavigationBar } from './components/NavigationBar';
 import { UploadView } from './components/UploadView';
 import { LoginScreen } from './components/LoginScreen';
+import { ApiConfigModal } from './components/ApiConfigModal';
+import { getCurrentApiBaseUrl, updateApiBaseUrl } from './api/client';
+import { getApiBaseUrl, loadApiBaseUrlFromStorage } from './utils/config';
 
 function App() {
+  const [showApiConfig, setShowApiConfig] = useState(false);
+  const [apiUrlConfigured, setApiUrlConfigured] = useState(false);
+
+  // Initialize API URL on app load
+  useEffect(() => {
+    // Load from localStorage first
+    const storedUrl = loadApiBaseUrlFromStorage();
+    if (storedUrl) {
+      updateApiBaseUrl(storedUrl);
+      setApiUrlConfigured(true);
+    } else {
+      // Get from runtime config or auto-detect
+      const url = getApiBaseUrl();
+      if (url) {
+        updateApiBaseUrl(url);
+        setApiUrlConfigured(true);
+      } else {
+        // No URL configured - show config modal
+        setShowApiConfig(true);
+      }
+    }
+  }, []);
+
+  const handleApiConfigSave = () => {
+    setApiUrlConfigured(true);
+    setShowApiConfig(false);
+  };
   const [username, setUsername] = useState<string | null>(() => {
     // Check if user is already logged in
     return localStorage.getItem('username');
@@ -72,6 +102,7 @@ function App() {
         hasSession={!!session}
         username={username}
         onLogout={handleLogout}
+        onApiConfigClick={() => setShowApiConfig(true)}
       />
 
       {/* Error banner */}
@@ -138,6 +169,18 @@ function App() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* API Configuration Modal */}
+      <ApiConfigModal
+        isOpen={showApiConfig}
+        onClose={() => {
+          // Only allow closing if URL is configured
+          if (apiUrlConfigured) {
+            setShowApiConfig(false);
+          }
+        }}
+        onSave={handleApiConfigSave}
+      />
     </div>
   );
 }

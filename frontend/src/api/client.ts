@@ -1,16 +1,50 @@
 /** API client configuration. */
 import axios from 'axios';
+import { getApiBaseUrl, loadApiBaseUrlFromStorage, setApiBaseUrl } from '../utils/config';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+// Get API URL from runtime config, localStorage, or defaults
+let API_BASE_URL = loadApiBaseUrlFromStorage() || getApiBaseUrl();
 
+// If no URL is configured (production without backend URL), we'll handle it in the interceptor
 export const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_BASE_URL || 'http://localhost:8000', // Fallback, but won't be used if empty
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor for error handling
+// Update base URL dynamically
+export function updateApiBaseUrl(url: string): void {
+  setApiBaseUrl(url);
+  apiClient.defaults.baseURL = url;
+}
+
+// Get current API base URL
+export function getCurrentApiBaseUrl(): string {
+  return apiClient.defaults.baseURL || '';
+}
+
+// Request interceptor - check if URL is configured before making request
+apiClient.interceptors.request.use(
+  (config) => {
+    // If baseURL is empty or localhost but we're on GitHub Pages, it's a configuration issue
+    const currentUrl = config.baseURL || apiClient.defaults.baseURL;
+    if (!currentUrl || currentUrl === 'http://localhost:8000') {
+      const isProduction = window.location.hostname.includes('github.io') || 
+                          window.location.hostname.includes('github.com');
+      if (isProduction && (!currentUrl || currentUrl === 'http://localhost:8000')) {
+        // This will be handled by the App component showing the config modal
+        console.warn('API URL not configured for production');
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

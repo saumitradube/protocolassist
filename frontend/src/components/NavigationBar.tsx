@@ -1,7 +1,7 @@
 /** Modern navigation bar component with Upload and Chat sections. */
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Upload, MessageSquare, Activity, Moon, Sun, LogOut, User } from 'lucide-react';
+import { Upload, MessageSquare, Activity, Moon, Sun, LogOut, User, Settings } from 'lucide-react';
 
 interface NavigationBarProps {
   activeTab: 'upload' | 'chat';
@@ -11,6 +11,7 @@ interface NavigationBarProps {
   hasSession: boolean;
   username?: string;
   onLogout?: () => void;
+  onApiConfigClick?: () => void;
 }
 
 export const NavigationBar: React.FC<NavigationBarProps> = ({
@@ -21,6 +22,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
   hasSession,
   username,
   onLogout,
+  onApiConfigClick,
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm">
@@ -55,6 +57,20 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
               </div>
             )}
             
+            {/* Settings Button */}
+            {onApiConfigClick && (
+              <motion.button
+                onClick={onApiConfigClick}
+                className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="API Settings"
+                title="Configure API"
+              >
+                <Settings className="text-gray-700 dark:text-gray-300" size={20} />
+              </motion.button>
+            )}
+
             {/* Dark Mode Toggle */}
             <motion.button
               onClick={onDarkModeToggle}
